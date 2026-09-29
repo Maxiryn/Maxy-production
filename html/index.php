@@ -1,85 +1,89 @@
 <?php
-$pageTitle = 'Exclusive Website';
-$pageDescription = 'Premium Maxy Fusion portfolio, artwork showcase and booking centre.';
+$pageTitle = 'Photography & Film';
+$pageDescription = 'Portrait, event and stage photography, film and creative direction by Maxy Fusion.';
 ?>
 <?php require_once __DIR__ . '/partials/header.php'; ?>
+<?php $byImage = array_column($portfolio, null, 'img'); $featured = array_filter(array_map(fn($img) => $byImage[$img] ?? null, ['pic3.png','artwork12.png','pic1.png','artwork9.png','pic5.png','artwork13.png'])); ?>
 
 <section class="hero">
-    <div class="hero-media"><img src="../img/photo1.png" alt="Maxy Fusion cinematic portrait"></div>
-    <div class="hero-content">
-        <p class="eyebrow">Exclusive Website • Portfolio • Artwork Showcase</p>
-        <h1><span class="gradient-text">Maxy</span><br>Fusion</h1>
-        <p><?= $brand['caption'] ?> This premium archive brings together photography, videography, visual storytelling, creative direction, signature works, camera work, collaborations and project booking in one cinematic experience.</p>
-        <div class="hero-actions">
-            <a class="btn magnetic" href="portfolio.php">Explore Portfolio</a>
-            <a class="btn ghost magnetic" href="booking.php">Start Booking</a>
-            <a class="btn gold magnetic" href="production.php">Watch Production</a>
+    <div class="container hero-grid">
+        <div class="hero-copy">
+            <p class="eyebrow">Photography · Film · Creative direction</p>
+            <h1>Every frame needs emotion, rhythm and <em>purpose.</em></h1>
+            <p class="lead">Maxy Fusion creates portrait, event and stage photography and cinematic video across Malaysia, Borneo and beyond. <?= esc($brand['caption']) ?></p>
+            <div class="actions">
+                <a class="btn" href="portfolio.php">View work</a>
+                <a class="btn ghost" href="booking.php">Book a session</a>
+            </div>
+            <dl class="facts">
+                <div><dt>2+</dt><dd>Years of practice</dd></div>
+                <div><dt>18+</dt><dd>Programs covered</dd></div>
+                <div><dt><?= count($awards) ?></dt><dd>Awards &amp; recognitions</dd></div>
+            </dl>
         </div>
-        <div class="hero-stats">
-            <div class="stat-card"><strong data-count="2" data-suffix="Y+">0</strong><span>Development Journey</span></div>
-            <div class="stat-card"><strong data-count="18" data-suffix="+">0</strong><span>Program Coverage</span></div>
-            <div class="stat-card"><strong data-count="5" data-suffix="+">0</strong><span>Awards / Recognitions</span></div>
-            <div class="stat-card"><strong data-count="30" data-suffix="+">0</strong><span>Creative Categories</span></div>
+        <div class="hero-media">
+            <img src="../img/photo1.png" alt="Portrait of a woman with a clear umbrella among trees" width="1920" height="1080" fetchpriority="high">
         </div>
     </div>
 </section>
-<section class="marquee">
-    <div class="marquee-track">
-        <?php for($r=0;$r<2;$r++): foreach($keywords as $word): ?>
-            <span><?= htmlspecialchars($word) ?> <b>✦</b></span>
-        <?php endforeach; endfor; ?>
-    </div>
-</section>
+
 <section class="section">
-    <div class="section-head reveal">
-        <div><p class="eyebrow">The Premium Experience</p><h2>High-end creative system for every visual story.</h2></div>
-        <p>Designed as a complete digital identity: portfolio, artwork showcase, history, achievements, services, booking centre, production archive, social proof, FAQ, and professional guidelines.</p>
-    </div>
-    <div class="grid three">
-        <article class="card feature-card"><span class="pill">01 Portfolio</span><h3>Curated visual storytelling</h3><p>Premium photography, videography, model portfolio, featured projects, signature works and camera direction in one showcase.</p></article>
-        <article class="card feature-card"><span class="pill">02 Booking Centre</span><h3>From idea to production</h3><p>Project inquiry, availability check, service packages and clear client journey built for serious creative requests.</p></article>
-        <article class="card feature-card"><span class="pill">03 Archive</span><h3>History with identity</h3><p>A digital gallery that records achievements, events, media coverage, collaborations and the creative journey of Maxy Fusion.</p></article>
-    </div>
-</section>
-<section class="section tight split">
-    <div class="image-stack reveal">
-        <img src="../img/photo2.png" alt="Portfolio frame">
-        <img src="../img/artwork12.png" alt="Stage performance">
-        <img src="../img/my_portrait.png" alt="Maxy Fusion portrait">
-    </div>
-    <div class="showcase-panel glass reveal">
-        <p class="eyebrow">Creative Direction</p>
-        <h2>Not just a website. A living production archive.</h2>
-        <p>Every page is crafted to feel cinematic, exclusive, and professional. The interface uses moving gradients, glass panels, interactive hover motion, filterable galleries, video previews, and strong brand language.</p>
-        <div class="keyword-cloud">
-            <?php foreach(array_slice($keywords, 0, 15) as $word): ?><span><?= htmlspecialchars($word) ?></span><?php endforeach; ?>
+    <div class="container">
+        <div class="section-head">
+            <h2>Selected work</h2>
+            <a class="text-link" href="portfolio.php">View all work <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="tile-grid">
+            <?php foreach ($featured as $item) work_tile($item['img'], $item['title'], $item['cat']); ?>
         </div>
     </div>
 </section>
+
 <section class="section">
-    <div class="section-head reveal">
-        <div><p class="eyebrow">Featured Projects</p><h2>Signature works and camera work.</h2></div>
-        <a class="btn ghost" href="portfolio.php">View All Work</a>
-    </div>
-    <div class="grid four">
-        <?php foreach(array_slice($portfolio, 0, 8) as $item): ?>
-        <article class="card gallery-card" data-lightbox="../img/<?= htmlspecialchars($item['img']) ?>">
-            <div class="card-media"><img src="../img/<?= htmlspecialchars($item['img']) ?>" alt="<?= htmlspecialchars($item['title']) ?>"></div>
-            <div class="card-body"><span class="pill"><?= htmlspecialchars($item['cat']) ?></span><h3><?= htmlspecialchars($item['title']) ?></h3><p><?= htmlspecialchars($item['desc']) ?></p></div>
-        </article>
-        <?php endforeach; ?>
+    <div class="container">
+        <div class="section-head">
+            <h2>Services</h2>
+            <a class="text-link" href="services.php">See all packages <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="service-row">
+            <?php foreach ($services as $item): ?>
+            <a class="service-link" href="services.php">
+                <span class="tag"><?= esc($item['tag']) ?></span>
+                <h3><?= esc($item['name']) ?></h3>
+                <span class="price"><?= esc($item['price']) ?></span>
+            </a>
+            <?php endforeach; ?>
+        </div>
     </div>
 </section>
-<section class="section split">
-    <div class="showcase-panel glass reveal">
-        <p class="eyebrow">Booking Centre</p>
-        <h2>Request a premium creative session.</h2>
-        <p>Built for photography, videography, model portfolio, cinematic production, events, media coverage, creative direction and custom visual projects.</p>
-        <a class="btn magnetic" href="booking.php">Open Booking Centre</a>
+
+<section class="section">
+    <div class="container split">
+        <div>
+            <h2>Recognition</h2>
+            <p class="muted">Competition wins and roles that shaped how Maxy Fusion works today.</p>
+            <a class="text-link" href="achievements.php">All awards <span aria-hidden="true">→</span></a>
+        </div>
+        <ul class="award-list compact">
+            <?php foreach ($awards as $item): ?>
+            <li><span class="year"><?= esc($item['year']) ?></span><span><?= esc($item['title']) ?></span></li>
+            <?php endforeach; ?>
+        </ul>
     </div>
-    <div class="card reveal">
-        <div class="card-media"><video src="../videos/video1.mp4" muted playsinline loop autoplay poster="../img/video1_thumbnail.jpg"></video></div>
-        <div class="card-body"><span class="pill">Production Archive</span><h3>Motion, rhythm and cinematic energy.</h3><p>Use the production page to preview showreels, event highlights, and video archive materials.</p></div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="cta-band">
+            <div>
+                <h2>Have a project in mind?</h2>
+                <p>Share the date, the idea and the feeling you want to capture. We will reply to confirm availability and next steps.</p>
+            </div>
+            <div class="actions">
+                <a class="btn" href="booking.php">Start a booking</a>
+                <a class="btn ghost" href="mailto:<?= esc($brand['email']) ?>">Email us</a>
+            </div>
+        </div>
     </div>
 </section>
 

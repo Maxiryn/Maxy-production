@@ -1,23 +1,23 @@
 <?php
-$pageTitle = 'Production Archive';
-$pageDescription = 'Cinematic production and video archive.';
+$pageTitle = 'Films';
+$pageDescription = 'Performance films, production reels and event highlights by Maxy Fusion.';
 ?>
 <?php require_once __DIR__ . '/partials/header.php'; ?>
+<?php page_header('Films', 'Performance films, production reels and event highlights.'); ?>
 
-<section class="page-hero">
-    <div class="crumb"><a href="index.php">Home</a><span>/</span><span>Production Archive</span></div>
-    <p class="eyebrow">Cinematic Production • Videography • Production Archive</p>
-    <h1><span class="gradient-text">Production</span></h1>
-    <p>Motion-led works for performance, event coverage, creative reels and visual storytelling. Tap a video card to preview.</p>
-</section>
 <section class="section tight">
-    <div class="grid three">
-        <?php foreach($videos as $v): ?>
-        <article class="card gallery-card" data-lightbox="../videos/<?= htmlspecialchars($v['file']) ?>" data-type="video">
-            <div class="card-media"><img src="../img/<?= htmlspecialchars($v['thumb']) ?>" alt="<?= htmlspecialchars($v['title']) ?>"></div>
-            <div class="card-body"><span class="pill">Video Archive</span><h3><?= htmlspecialchars($v['title']) ?></h3><p><?= htmlspecialchars($v['desc']) ?></p></div>
-        </article>
-        <?php endforeach; ?>
+    <div class="container">
+        <div class="tile-grid films">
+            <?php foreach ($videos as $v): ?>
+            <figure class="tile film">
+                <a class="tile-media" href="../videos/<?= esc($v['file']) ?>" data-lightbox data-type="video" data-poster="../img/<?= esc($v['thumb']) ?>" data-caption="<?= esc($v['title']) ?>">
+                    <img src="../img/<?= esc($v['thumb']) ?>" alt="<?= esc($v['title']) ?>" loading="lazy" decoding="async">
+                    <span class="play" aria-hidden="true"></span>
+                </a>
+                <figcaption><span><?= esc($v['title']) ?></span><small><?= esc($v['desc']) ?></small></figcaption>
+            </figure>
+            <?php endforeach; ?>
+        </div>
     </div>
 </section>
 

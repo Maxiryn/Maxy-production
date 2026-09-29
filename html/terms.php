@@ -1,23 +1,23 @@
 <?php
-$pageTitle = 'T&C and Guidelines';
-$pageDescription = 'Premium terms, conditions and production guidelines.';
+$pageTitle = 'Terms & Guidelines';
+$pageDescription = 'Booking terms and production guidelines for Maxy Fusion clients.';
+$terms = [
+    ['Reservation', 'A booking is confirmed once the date, service, scope, location and payment arrangement are agreed.'],
+    ['Deposit', 'A deposit may be required to secure production time. The balance is paid according to the project agreement.'],
+    ['Final output', 'Edited files are delivered digitally, based on the selected package and production timeline.'],
+    ['Usage rights', 'Maxy Fusion may use selected work in its portfolio unless privacy is requested before production.'],
+    ['Date changes', 'Rescheduling depends on availability and should be requested as early as possible.'],
+    ['Respectful production', 'Clients and crew keep communication respectful and working conditions safe.'],
+];
 ?>
 <?php require_once __DIR__ . '/partials/header.php'; ?>
+<?php page_header('Terms & guidelines', 'Clear terms that protect both client and creator and keep the process smooth.'); ?>
 
-<section class="page-hero">
-    <div class="crumb"><a href="index.php">Home</a><span>/</span><span>T&C and Guidelines</span></div>
-    <p class="eyebrow">T&C • Guidelines • Professional Standards</p>
-    <h1><span class="gradient-text">Guidelines</span></h1>
-    <p>Clear terms designed to protect both client and creator while keeping the creative process smooth, secure and professional.</p>
-</section>
 <section class="section tight">
-    <div class="grid two">
-        <article class="card"><div class="card-body"><span class="pill">Booking</span><h3>Reservation</h3><p>Bookings are confirmed after date, service, scope, location and payment arrangement are agreed.</p></div></article>
-        <article class="card"><div class="card-body"><span class="pill">Payment</span><h3>Deposit</h3><p>A deposit may be required to secure production time. Balance is completed according to project agreement.</p></div></article>
-        <article class="card"><div class="card-body"><span class="pill">Delivery</span><h3>Final Output</h3><p>Edited files are delivered digitally based on the selected service package and production timeline.</p></div></article>
-        <article class="card"><div class="card-body"><span class="pill">Copyright</span><h3>Usage Rights</h3><p>Maxy Fusion may use selected work for portfolio unless privacy is requested before production.</p></div></article>
-        <article class="card"><div class="card-body"><span class="pill">Reschedule</span><h3>Date Changes</h3><p>Rescheduling depends on availability and should be requested as early as possible.</p></div></article>
-        <article class="card"><div class="card-body"><span class="pill">Professionalism</span><h3>Respectful Production</h3><p>Clients and crew are expected to maintain respectful communication and safe working conditions.</p></div></article>
+    <div class="container narrow">
+        <dl class="terms-list">
+            <?php foreach ($terms as [$title, $text]): ?><div><dt><?= esc($title) ?></dt><dd><?= esc($text) ?></dd></div><?php endforeach; ?>
+        </dl>
     </div>
 </section>
 

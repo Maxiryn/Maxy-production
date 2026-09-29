@@ -1,20 +1,23 @@
 <?php
 $pageTitle = 'Client Experience';
-$pageDescription = 'Premium client experience and project flow.';
+$pageDescription = 'How a project with Maxy Fusion works, from first inquiry to final delivery.';
+$stages = [
+    ['label' => 'Before the shoot', 'title' => 'Concept alignment', 'text' => 'Mood, location, outfit, timeline, references and final output are agreed in advance.'],
+    ['label' => 'During the shoot', 'title' => 'Directed with confidence', 'text' => 'Guided posing, framing and camera work, with creative decisions made on set.'],
+    ['label' => 'After the shoot', 'title' => 'Careful delivery', 'text' => 'Curated selection, editing and export, delivered ready to share and archive.'],
+];
 ?>
 <?php require_once __DIR__ . '/partials/header.php'; ?>
+<?php page_header('Client experience', 'What working together looks like, from the first message to the final delivery.'); ?>
 
-<section class="page-hero">
-    <div class="crumb"><a href="index.php">Home</a><span>/</span><span>Client Experience</span></div>
-    <p class="eyebrow">Client Experience • Guidelines • Premium Flow</p>
-    <h1><span class="gradient-text">Experience</span></h1>
-    <p>A client journey built to feel clear, trusted and elevated from first inquiry to final delivery.</p>
-</section>
 <section class="section tight">
-    <div class="grid three">
-        <article class="card feature-card"><span class="pill">Before Shoot</span><h3>Concept alignment</h3><p>Mood, location, outfit, timeline, references and final output are confirmed.</p></article>
-        <article class="card feature-card"><span class="pill">During Shoot</span><h3>Directed confidence</h3><p>Guided posing, framing, camera work and creative decisions throughout production.</p></article>
-        <article class="card feature-card"><span class="pill">After Shoot</span><h3>Premium delivery</h3><p>Curated selection, editing, export and archive-ready digital presentation.</p></article>
+    <div class="container">
+        <ol class="columns three steps">
+            <?php foreach ($stages as $stage): ?>
+            <li class="column"><span class="step-label"><?= esc($stage['label']) ?></span><h2><?= esc($stage['title']) ?></h2><p><?= esc($stage['text']) ?></p></li>
+            <?php endforeach; ?>
+        </ol>
+        <p class="after-grid"><a class="btn" href="booking.php">Start a booking</a></p>
     </div>
 </section>
 

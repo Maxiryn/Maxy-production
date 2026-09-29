@@ -1,20 +1,15 @@
 <?php
-$pageTitle = 'Digital Gallery';
-$pageDescription = 'Digital gallery and featured visual archive.';
+$pageTitle = 'Full Gallery';
+$pageDescription = 'Every image in the Maxy Fusion archive on one page.';
 ?>
 <?php require_once __DIR__ . '/partials/header.php'; ?>
+<?php page_header('Full gallery', 'Every image in the archive on one page.'); ?>
 
-<section class="page-hero">
-    <div class="crumb"><a href="index.php">Home</a><span>/</span><span>Digital Gallery</span></div>
-    <p class="eyebrow">Digital Gallery • Featured Projects • Signature Works</p>
-    <h1><span class="gradient-text">Gallery</span></h1>
-    <p>A fast visual wall for previewing selected photography, artwork, events and production stills.</p>
-</section>
 <section class="section tight">
-    <div class="grid four">
-        <?php foreach(array_merge($portfolio, $artworks) as $item): $img = $item['img']; ?>
-        <article class="card gallery-card" data-lightbox="../img/<?= htmlspecialchars($img) ?>"><div class="card-media"><img src="../img/<?= htmlspecialchars($img) ?>" alt="Digital gallery item"></div></article>
-        <?php endforeach; ?>
+    <div class="container">
+        <div class="tile-grid dense">
+            <?php foreach (array_merge($portfolio, $artworks) as $item) work_tile($item['img'], $item['title'], $item['cat'] ?? $item['tag'], '', false); ?>
+        </div>
     </div>
 </section>
 

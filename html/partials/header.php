@@ -1,55 +1,39 @@
 <?php
 if (!isset($pageTitle)) { $pageTitle = 'Maxy Fusion'; }
-if (!isset($pageDescription)) { $pageDescription = 'Exclusive portfolio, artwork showcase, cinematic production and premium booking centre.'; }
+if (!isset($pageDescription)) { $pageDescription = 'Portrait, event and stage photography, film and creative direction by Maxy Fusion.'; }
 require_once __DIR__ . '/data.php';
+$activeSection = current_section();
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="<?= htmlspecialchars($pageDescription) ?>">
-    <title><?= htmlspecialchars($pageTitle) ?> | Maxy Fusion</title>
+    <meta name="description" content="<?= esc($pageDescription) ?>">
+    <meta name="theme-color" content="#0d0c0f">
+    <title><?= esc($pageTitle) ?> | Maxy Fusion</title>
     <link rel="icon" href="../img/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap">
     <link rel="stylesheet" href="../css/premium.css">
 </head>
-<body class="<?= isset($bodyClass) ? htmlspecialchars($bodyClass) : '' ?>">
-<div class="noise"></div>
-<div class="aurora aurora-one"></div>
-<div class="aurora aurora-two"></div>
-<div class="cursor-glow" aria-hidden="true"></div>
-
+<body class="<?= isset($bodyClass) ? esc($bodyClass) : '' ?>">
+<a class="skip-link" href="#content">Skip to content</a>
 <header class="site-header" id="top">
-    <a class="brand" href="index.php" aria-label="Maxy Fusion Home">
-        <img src="../img/logo.png" alt="Maxy Fusion logo">
-        <span>
-            <strong>Maxy Fusion</strong>
-            <small>Premium Visual Archive</small>
-        </span>
-    </a>
-    <button class="menu-toggle" aria-label="Open menu"><span></span><span></span></button>
-    <nav class="nav-panel" aria-label="Main navigation">
-        <div class="nav-main">
-            <?php foreach ($navMain as $item): ?>
-                <a class="<?= isActive(basename($item['url'])) ?>" href="<?= $item['url'] ?>"><?= htmlspecialchars($item['label']) ?></a>
+    <div class="container header-inner">
+        <a class="brand" href="index.php"><img src="../img/logo.png" alt="Maxy Fusion home" width="200" height="80"></a>
+        <nav class="site-nav" id="site-nav" aria-label="Main">
+            <?php foreach (site_sections() as $key => $section): ?>
+                <a href="<?= esc($section['url']) ?>"<?= $key === $activeSection ? ' aria-current="true"' : '' ?>><?= esc($section['label']) ?></a>
             <?php endforeach; ?>
+            <a class="nav-account" href="profile.php">Account</a>
+        </nav>
+        <div class="header-actions">
+            <a class="nav-account" href="profile.php">Account</a>
+            <a class="btn btn-small" href="booking.php">Book a session</a>
+            <button class="menu-toggle" type="button" aria-controls="site-nav" aria-expanded="false"><span class="visually-hidden">Menu</span><span aria-hidden="true"></span></button>
         </div>
-        <div class="nav-more">
-            <button class="more-btn" type="button">Explore <span>+</span></button>
-            <div class="mega-menu">
-                <div>
-                    <p class="eyebrow">Creative Index</p>
-                    <h3>Everything inside the Maxy Fusion archive.</h3>
-                </div>
-                <div class="mega-grid">
-                    <?php foreach ($navMore as $item): ?>
-                        <a href="<?= $item['url'] ?>"><?= htmlspecialchars($item['label']) ?></a>
-                    <?php endforeach; ?>
-                </div>
-            </div>
-        </div>
-        <a href="profile.php">My Account</a>
-        <a class="nav-cta magnetic" href="booking.php">Book Project</a>
-    </nav>
+    </div>
 </header>
-<main>
+<main id="content">

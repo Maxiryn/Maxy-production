@@ -1,28 +1,38 @@
 <?php
 $pageTitle = 'About';
-$pageDescription = 'About Maxy Fusion creative direction and visual identity.';
+$pageDescription = 'About Maxy Fusion: photography, videography and creative direction.';
+$disciplines = [
+    ['name' => 'Photography', 'text' => 'Portrait, event, model, graduation and editorial work. Clean, timeless and emotional.'],
+    ['name' => 'Videography', 'text' => 'Event recaps, highlight films, production coverage and short cutdowns for social media.'],
+    ['name' => 'Direction', 'text' => 'Planning, mood, pacing and camera work, from the first concept to the final frame.'],
+];
 ?>
 <?php require_once __DIR__ . '/partials/header.php'; ?>
+<?php page_header('About the studio', 'Maxy Fusion is a creative production identity focused on photography, videography, camera work and visual storytelling.'); ?>
 
-<section class="page-hero">
-    <div class="crumb"><a href="index.php">Home</a><span>/</span><span>About</span></div>
-    <p class="eyebrow">About • Visual Storytelling • Creative Direction</p>
-    <h1><span class="gradient-text">About</span></h1>
-    <p>Maxy Fusion is a creative production identity focused on cinematic photography, videography, camera work, editorial portraits, performance coverage and digital artwork presentation.</p>
-</section>
-<section class="section tight split">
-    <div class="showcase-panel glass reveal">
-        <p class="eyebrow">Brand Philosophy</p>
-        <h2>Every frame needs emotion, rhythm and purpose.</h2>
-        <p>The Maxy Fusion website is designed to present work with confidence: premium visuals, clean project inquiry, curated archives and a unique creative identity that feels international but still personal.</p>
-    </div>
-    <div class="card reveal"><div class="card-media"><img src="../img/my_portrait.png" alt="Maxy Fusion portrait"></div><div class="card-body"><span class="pill">Creative Director</span><h3>Maxy Fusion Identity</h3><p>Built around visual storytelling, media coverage and artistic camera direction.</p></div></div>
-</section>
 <section class="section tight">
-    <div class="grid three">
-        <article class="card feature-card"><span class="pill">Photography</span><h3>Clean, timeless and emotional.</h3><p>Portrait, event, model, graduation and creative editorial visuals.</p></article>
-        <article class="card feature-card"><span class="pill">Videography</span><h3>Motion with story.</h3><p>Event recap, highlight film, production coverage and cinematic cutdowns.</p></article>
-        <article class="card feature-card"><span class="pill">Direction</span><h3>From concept to final frame.</h3><p>Creative planning, mood, pacing, camera work and brand-focused delivery.</p></article>
+    <div class="container split">
+        <div class="prose">
+            <h2>Every frame needs emotion, rhythm and purpose.</h2>
+            <p>The work spans cinematic portraits, stage and performance coverage, events and digital artwork. Each project is planned around the story it has to tell, and delivered ready to share.</p>
+            <p><?= esc($brand['caption']) ?> What started as personal practice in photography, video and music has grown into an archive of award-winning work and a clear client process.</p>
+            <p><a class="text-link" href="history.php">Read the journey <span aria-hidden="true">→</span></a></p>
+        </div>
+        <figure class="portrait">
+            <img src="../img/my_portrait.png" alt="Maxy Fusion creative director holding a camera stabiliser" width="200" height="200">
+            <figcaption>Creative director, Maxy Fusion</figcaption>
+        </figure>
+    </div>
+</section>
+
+<section class="section tight">
+    <div class="container">
+        <h2 class="visually-hidden">Disciplines</h2>
+        <div class="columns three">
+            <?php foreach ($disciplines as $item): ?>
+            <div class="column"><h3><?= esc($item['name']) ?></h3><p><?= esc($item['text']) ?></p></div>
+            <?php endforeach; ?>
+        </div>
     </div>
 </section>
 

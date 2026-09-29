@@ -1,111 +1,95 @@
-
 const qs = (s, p = document) => p.querySelector(s);
 const qsa = (s, p = document) => [...p.querySelectorAll(s)];
 
-const cursor = qs('.cursor-glow');
-if (cursor) {
-  window.addEventListener('pointermove', e => {
-    cursor.style.left = e.clientX + 'px';
-    cursor.style.top = e.clientY + 'px';
-  });
-}
-
-qsa('.card').forEach(card => {
-  card.addEventListener('pointermove', e => {
-    const rect = card.getBoundingClientRect();
-    card.style.setProperty('--x', `${e.clientX - rect.left}px`);
-    card.style.setProperty('--y', `${e.clientY - rect.top}px`);
-  });
-});
-
+// Mobile menu
 const menuBtn = qs('.menu-toggle');
-const nav = qs('.nav-panel');
+const nav = qs('#site-nav');
 if (menuBtn && nav) {
-  menuBtn.addEventListener('click', () => nav.classList.toggle('open'));
+  const setMenu = open => {
+    nav.classList.toggle('open', open);
+    menuBtn.setAttribute('aria-expanded', String(open));
+  };
+  menuBtn.addEventListener('click', () => setMenu(!nav.classList.contains('open')));
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && nav.classList.contains('open')) { setMenu(false); menuBtn.focus(); }
+  });
 }
 
-const more = qs('.nav-more');
-const moreBtn = qs('.more-btn');
-if (more && moreBtn) {
-  moreBtn.addEventListener('click', () => more.classList.toggle('open'));
-}
-
-const reveal = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      reveal.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.12 });
-qsa('.reveal, .card, .timeline-item').forEach(el => reveal.observe(el));
-
-qsa('.magnetic').forEach(btn => {
-  btn.addEventListener('pointermove', e => {
-    const r = btn.getBoundingClientRect();
-    const x = (e.clientX - r.left - r.width / 2) * 0.15;
-    const y = (e.clientY - r.top - r.height / 2) * 0.15;
-    btn.style.transform = `translate(${x}px, ${y}px)`;
-  });
-  btn.addEventListener('pointerleave', () => btn.style.transform = '');
-});
-
+// Portfolio category filters
 const filters = qsa('[data-filter]');
-const items = qsa('[data-category]');
 filters.forEach(btn => {
   btn.addEventListener('click', () => {
-    filters.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
     const filter = btn.dataset.filter;
-    items.forEach(item => {
-      const show = filter === 'All' || item.dataset.category === filter;
-      item.style.display = show ? '' : 'none';
+    filters.forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
+    qsa('[data-category]').forEach(item => {
+      item.hidden = filter !== 'All' && item.dataset.category !== filter;
     });
   });
 });
 
-let lightbox = qs('.lightbox');
-if (!lightbox) {
-  lightbox = document.createElement('div');
-  lightbox.className = 'lightbox';
-  lightbox.innerHTML = '<button type="button" aria-label="Close preview">Close ✕</button><div class="lightbox-content"></div>';
-  document.body.appendChild(lightbox);
-}
-const lightboxContent = qs('.lightbox-content', lightbox);
-const lightboxClose = qs('button', lightbox);
-qsa('[data-lightbox]').forEach(el => {
-  el.addEventListener('click', () => {
-    const type = el.dataset.type || 'image';
-    const src = el.dataset.lightbox;
-    lightboxContent.innerHTML = type === 'video'
-      ? `<video src="${src}" controls autoplay></video>`
-      : `<img src="${src}" alt="Expanded preview">`;
-    lightbox.classList.add('open');
-  });
-});
-lightboxClose?.addEventListener('click', () => {
-  lightbox.classList.remove('open');
-  lightboxContent.innerHTML = '';
-});
-lightbox?.addEventListener('click', e => {
-  if (e.target === lightbox) {
-    lightbox.classList.remove('open');
-    lightboxContent.innerHTML = '';
-  }
-});
+// Lightbox for images and films. Links still open the file directly when JavaScript is unavailable.
+const triggers = qsa('[data-lightbox]');
+if (triggers.length && typeof HTMLDialogElement === 'function') {
+  const box = document.createElement('dialog');
+  box.className = 'lightbox';
+  box.setAttribute('aria-label', 'Media viewer');
+  box.innerHTML = `
+    <div class="lightbox-bar"><button class="lb-btn lb-close" type="button" aria-label="Close">✕</button></div>
+    <div class="lightbox-stage"></div>
+    <p class="lightbox-caption" aria-live="polite"></p>
+    <button class="lb-btn lb-prev" type="button" aria-label="Previous">←</button>
+    <button class="lb-btn lb-next" type="button" aria-label="Next">→</button>`;
+  document.body.appendChild(box);
+  const stage = qs('.lightbox-stage', box);
+  const caption = qs('.lightbox-caption', box);
+  let list = [];
+  let index = 0;
+  let opener = null;
 
-qsa('[data-count]').forEach(el => {
-  const target = Number(el.dataset.count || 0);
-  let current = 0;
-  const step = Math.max(1, Math.ceil(target / 52));
-  const tick = () => {
-    current += step;
-    if (current >= target) current = target;
-    el.textContent = current + (el.dataset.suffix || '');
-    if (current < target) requestAnimationFrame(tick);
+  const show = i => {
+    index = (i + list.length) % list.length;
+    const el = list[index];
+    const text = el.dataset.caption || '';
+    stage.replaceChildren();
+    caption.textContent = text;
+    if (el.dataset.type === 'video') {
+      const video = document.createElement('video');
+      video.src = el.getAttribute('href');
+      video.controls = true;
+      video.autoplay = true;
+      video.playsInline = true;
+      if (el.dataset.poster) video.poster = el.dataset.poster;
+      video.addEventListener('error', () => { caption.textContent = `${text} — this film is not available to play right now.`; });
+      stage.appendChild(video);
+    } else {
+      const img = document.createElement('img');
+      img.src = el.getAttribute('href');
+      img.alt = qs('img', el)?.alt || text;
+      stage.appendChild(img);
+    }
   };
-  const obs = new IntersectionObserver(entries => {
-    if (entries[0].isIntersecting) { tick(); obs.disconnect(); }
+
+  const close = () => box.close();
+  box.addEventListener('close', () => { stage.replaceChildren(); opener?.focus(); });
+
+  triggers.forEach(el => {
+    el.addEventListener('click', e => {
+      e.preventDefault();
+      list = triggers.filter(t => !t.closest('[hidden]'));
+      opener = el;
+      box.classList.toggle('single', list.length < 2);
+      show(list.indexOf(el));
+      box.showModal();
+      qs('.lb-close', box).focus();
+    });
   });
-  obs.observe(el);
-});
+  qs('.lb-close', box).addEventListener('click', close);
+  qs('.lb-prev', box).addEventListener('click', () => show(index - 1));
+  qs('.lb-next', box).addEventListener('click', () => show(index + 1));
+  box.addEventListener('click', e => { if (e.target === box || e.target === stage) close(); });
+  box.addEventListener('keydown', e => {
+    if (list.length < 2) return;
+    if (e.key === 'ArrowLeft') show(index - 1);
+    if (e.key === 'ArrowRight') show(index + 1);
+  });
+}

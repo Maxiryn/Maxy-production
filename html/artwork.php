@@ -1,24 +1,19 @@
 <?php
-$pageTitle = 'Artwork Showcase';
-$pageDescription = 'Premium artwork showcase and digital gallery.';
+$pageTitle = 'Artwork';
+$pageDescription = 'Artwork studies from the Maxy Fusion archive: portraits, live performance and street photography.';
 ?>
 <?php require_once __DIR__ . '/partials/header.php'; ?>
+<?php page_header('Artwork', 'Sixteen studies from the archive, grouped by subject.'); ?>
 
-<section class="page-hero">
-    <div class="crumb"><a href="index.php">Home</a><span>/</span><span>Artwork Showcase</span></div>
-    <p class="eyebrow">Digital Gallery • Artwork Showcase • Private Collection</p>
-    <h1><span class="gradient-text">Artwork</span></h1>
-    <p>A curated digital gallery for portraits, performance frames, event visuals, creative edits and archive-ready artwork.</p>
-</section>
+<?php foreach ($artworkGroups as $group => $numbers): ?>
 <section class="section tight">
-    <div class="grid four">
-        <?php foreach($artworks as $item): ?>
-        <article class="card gallery-card" data-lightbox="../img/<?= htmlspecialchars($item['img']) ?>">
-            <div class="card-media"><img src="../img/<?= htmlspecialchars($item['img']) ?>" alt="<?= htmlspecialchars($item['title']) ?>"></div>
-            <div class="card-body"><span class="pill"><?= htmlspecialchars($item['tag']) ?></span><h3><?= htmlspecialchars($item['title']) ?></h3><p>Selected for the Maxy Fusion digital archive and premium artwork showcase.</p></div>
-        </article>
-        <?php endforeach; ?>
+    <div class="container">
+        <div class="section-head small"><h2><?= esc($group) ?></h2><span class="muted"><?= count($numbers) ?> images</span></div>
+        <div class="tile-grid">
+            <?php foreach ($artworks as $item) if ($item['tag'] === $group) work_tile($item['img'], $item['title'], $group, '', false); ?>
+        </div>
     </div>
 </section>
+<?php endforeach; ?>
 
 <?php require_once __DIR__ . '/partials/footer.php'; ?>

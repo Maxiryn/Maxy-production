@@ -1,20 +1,17 @@
 <?php
-$pageTitle = 'Achievements & Awards';
+$pageTitle = 'Awards';
 $pageDescription = 'Maxy Fusion achievements, awards and recognitions.';
 ?>
 <?php require_once __DIR__ . '/partials/header.php'; ?>
+<?php page_header('Awards & recognition', 'Milestones that shaped the identity and production confidence of Maxy Fusion.'); ?>
 
-<section class="page-hero">
-    <div class="crumb"><a href="index.php">Home</a><span>/</span><span>Achievements & Awards</span></div>
-    <p class="eyebrow">Achievements • Awards • Media Coverage</p>
-    <h1><span class="gradient-text">Awards</span></h1>
-    <p>Selected milestones that shaped the credibility, identity and production confidence of Maxy Fusion.</p>
-</section>
 <section class="section tight">
-    <div class="grid two">
-        <?php foreach($awards as $item): ?>
-        <article class="card"><div class="card-body"><span class="pill"><?= htmlspecialchars($item['year']) ?></span><h3><?= htmlspecialchars($item['title']) ?></h3><p><?= htmlspecialchars($item['desc']) ?></p></div></article>
-        <?php endforeach; ?>
+    <div class="container narrow">
+        <ul class="award-list">
+            <?php foreach ($awards as $item): ?>
+            <li><span class="year"><?= esc($item['year']) ?></span><div><h2><?= esc($item['title']) ?></h2><p><?= esc($item['desc']) ?></p></div></li>
+            <?php endforeach; ?>
+        </ul>
     </div>
 </section>
 

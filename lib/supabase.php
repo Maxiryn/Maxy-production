@@ -75,10 +75,10 @@ function field(string $name, int $max = 500): string {
 function page_start(string $title): void {
     $pageTitle = $title;
     require __DIR__ . '/../html/partials/header.php';
-    echo '<section class="page-hero"><h1>' . esc($title) . '</h1></section><section class="section tight"><div class="showcase-panel glass">';
+    echo '<header class="page-head"><div class="container narrow"><h1>' . esc($title) . '</h1></div></header><section class="section tight"><div class="container narrow"><div class="panel account">';
 }
-function page_end(): void { echo '</div></section>'; require __DIR__ . '/../html/partials/footer.php'; }
-function notice(string $text): void { echo '<p role="status">' . esc($text) . '</p>'; }
+function page_end(): void { echo '</div></div></section>'; require __DIR__ . '/../html/partials/footer.php'; }
+function notice(string $text): void { echo '<p class="notice" role="status">' . esc($text) . '</p>'; }
 function input(string $name, string $label, string $value = '', string $type = 'text', bool $required = false): void {
     echo '<div class="form-field"><label for="' . esc($name) . '">' . esc($label) . '</label><input id="' . esc($name) . '" name="' . esc($name) . '" type="' . esc($type) . '" value="' . esc($value) . '"' . ($required ? ' required' : '') . '></div>';
 }

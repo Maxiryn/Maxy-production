@@ -1,6 +1,10 @@
 # Maxy Production / Maxy Fusion
 
-PHP portfolio hosted on Vercel, with Supabase Auth and PostgreSQL for profiles, bookings, services, and feedback. The existing design, galleries, and assets are retained.
+PHP portfolio hosted on Vercel, with Supabase Auth and PostgreSQL for profiles, bookings, services, and feedback. The galleries and image assets are retained.
+
+## Layout and content
+
+Navigation is grouped into four sections — Work, About, Services and Contact — defined once in `site_sections()` in `html/partials/data.php`. The header, the tabs under each page title (`page_header()`), and the footer columns are all generated from it, so adding or renaming a page happens there. Portfolio items, artwork groups, packages, awards and films also live in `data.php`; contact details and social links are in `site_brand()` (a social link only appears on the contact page once it has a URL). All pages share `css/premium.css` and `js/premium.js`; the older `styles*.css` and `script*.js` files are no longer referenced.
 
 ## Deployment
 
