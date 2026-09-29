@@ -1,0 +1,1 @@
+<?php $pageTitle='Page Not Found'; $pageDescription='Page not found.'; require_once __DIR__.'/partials/header.php'; ?><section class="page-hero"><p class="eyebrow">404</p><h1><span class="gradient-text">Not Found</span></h1><p>This page is not available.</p><a class="btn" href="index.php">Back Home</a></section><?php require_once __DIR__.'/partials/footer.php'; ?>
