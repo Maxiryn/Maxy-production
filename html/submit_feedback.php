@@ -1,37 +1,4 @@
 <?php
-session_start();
-
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit;
-}
-
-$userId = $_SESSION['user_id'];
-$conn = new mysqli('localhost', 'root', '', 'maxy_production');
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $feedback = $conn->real_escape_string($_POST['feedback']);
-    $bookingId = isset($_POST['booking_id']) ? (int)$_POST['booking_id'] : null;
-
-    if (empty($feedback)) {
-        echo "Feedback cannot be empty!";
-        exit;
-    }
-
-    $insertQuery = "INSERT INTO feedback (booking_id, comment, rating) VALUES ('$bookingId', '$feedback', 5)";
-
-    if ($conn->query($insertQuery) === TRUE) {
-        echo "Feedback submitted successfully!";
-        header("Location: profile.php#feedback");
-        exit;
-    } else {
-        echo "Error: " . $conn->error;
-    }
-}
-
-$conn->close();
-?>
+require_once __DIR__ . '/../lib/supabase.php'; $user=require_user(); check_post();
+try { $rating=(int)field('rating',1); $comment=field('feedback',5000); if(!$comment || $rating<1 || $rating>5) throw new RuntimeException('Enter feedback and a rating from 1 to 5.'); db('feedback','POST',['user_id'=>$user['id'],'booking_id'=>field('booking_id',36),'rating'=>$rating,'comment'=>$comment],'return=minimal'); go('profile.php'); }
+catch(RuntimeException $e) { http_response_code(400); page_start('Feedback not saved'); notice($e->getMessage()); page_end(); }

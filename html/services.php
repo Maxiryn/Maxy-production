@@ -2,7 +2,7 @@
 $pageTitle = 'Service Packages';
 $pageDescription = 'Premium photography, videography and production service packages.';
 ?>
-<?php require_once __DIR__ . '/partials/header.php'; ?>
+<?php require_once __DIR__ . '/../lib/supabase.php'; require_once __DIR__ . '/partials/data.php'; try { $stored=db('services?active=eq.true&order=created_at'); if($stored) $services=$stored; } catch(RuntimeException $e) {} require_once __DIR__ . '/partials/header.php'; ?>
 
 <section class="page-hero">
     <div class="crumb"><a href="index.php">Home</a><span>/</span><span>Service Packages</span></div>
