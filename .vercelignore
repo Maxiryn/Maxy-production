@@ -1,0 +1,7 @@
+.git
+.env*
+tests
+supabase
+README.md
+AGENTS.md
+node_modules

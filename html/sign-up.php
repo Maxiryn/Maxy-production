@@ -1,67 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign Up | Max Raynold Sapaun</title>
-  <link rel="stylesheet" href="../css/styles9.css">
-</head>
-<body>
-  <header>
-    <div class="container header-content">
-      <img src="../img/logo.png" alt="Your Logo" class="logo">
-      <nav>
-	  	    <a href="indexx.php">Home</a>
-	    <a href="login.php">Log In</a>
-      </nav>
-    </div>
-  </header>
-
-  <main>
-    <div class="container">
-      <h1>Create an Account</h1>
-      <form action="signup_process.php" method="post">
-        <label for="user_id">User ID:</label>
-        <input type="text" id="user_id" name="user_id" required>
-
-        <label for="full_name">Full Name:</label>
-        <input type="text" id="full_name" name="full_name" required>
-
-        <label for="nickname">Nickname:</label>
-        <input type="text" id="nickname" name="nickname" required>
-
-        <label for="ic_number">IC Number:</label>
-        <input type="text" id="ic_number" name="ic_number" required>
-
-        <label for="age">Age:</label>
-        <input type="number" id="age" name="age" required>
-
-        <label for="address">Address:</label>
-        <textarea id="address" name="address" required></textarea>
-
-        <label for="dob">Date of Birth:</label>
-        <input type="date" id="dob" name="dob" required>
-
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-
-        <!-- Password fields -->
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-
-        <label for="confirm_password">Confirm Password:</label>
-        <input type="password" id="confirm_password" name="confirm_password" required>
-
-        <button type="submit">Sign Up</button>
-      </form>
-      <p>Already have an account? <a href="login.php">Login here</a>.</p>
-    </div>
-  </main>
-
-  <footer>
-    <div class="container">
-      <p>© 2021 Maxy production. All rights reserved.</p>
-    </div>
-  </footer>
-</body>
-</html>
+<?php
+require_once __DIR__ . '/../lib/supabase.php';
+$csrf = csrf(); $message = '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    check_post();
+    try {
+        $email=field('email',254); $name=field('full_name',200); $password=(string)($_POST['password'] ?? '');
+        if (!filter_var($email,FILTER_VALIDATE_EMAIL) || !$name || strlen($password)<12 || $password !== ($_POST['confirm_password'] ?? '')) throw new RuntimeException('Enter your name, a valid email, and matching passwords of at least 12 characters.');
+        $data=sb('/auth/v1/signup','POST',['email'=>$email,'password'=>$password,'data'=>['full_name'=>$name,'nickname'=>field('nickname',100)]]);
+        if (!empty($data['access_token'])) { save_auth($data); go('profile.php'); }
+        $message='Check your email to confirm your account, then return here to sign in.';
+    } catch (RuntimeException $e) { $message=$e->getMessage(); }
+}
+page_start('Create Account'); if($message) notice($message);
+?><form method="post" class="form-grid"><?= $csrf ?>
+<?php input('full_name','Full name','','text',true); input('nickname','Nickname'); input('email','Email','','email',true); input('password','Password (at least 12 characters)','','password',true); input('confirm_password','Confirm password','','password',true); ?>
+<button class="btn" type="submit">Create account</button></form><p><a href="login.php">Sign in</a></p>
+<?php page_end(); ?>

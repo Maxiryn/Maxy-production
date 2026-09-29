@@ -48,6 +48,7 @@ require_once __DIR__ . '/data.php';
                 </div>
             </div>
         </div>
+        <a href="profile.php">My Account</a>
         <a class="nav-cta magnetic" href="booking.php">Book Project</a>
     </nav>
 </header>

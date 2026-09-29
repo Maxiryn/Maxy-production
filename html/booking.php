@@ -1,4 +1,7 @@
 <?php
+require_once __DIR__ . '/../lib/supabase.php';
+$csrf = csrf();
+current_user();
 $pageTitle = 'Booking Centre';
 $pageDescription = 'Premium project inquiry and booking centre.';
 ?>
@@ -12,7 +15,7 @@ $pageDescription = 'Premium project inquiry and booking centre.';
 </section>
 <section class="section tight split">
     <form class="showcase-panel glass" action="submit_booking.php" method="post">
-        <div class="form-grid">
+        <?= $csrf ?><div class="form-grid">
             <div class="form-field"><label>Name</label><input name="name" required placeholder="Your full name"></div>
             <div class="form-field"><label>Email</label><input name="email" type="email" required placeholder="your@email.com"></div>
             <div class="form-field"><label>Phone / WhatsApp</label><input name="phone" required placeholder="+60..."></div>
